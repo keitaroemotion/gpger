@@ -1,10 +1,19 @@
 class Gpger
-  def initialize
-    @crypto = GPGME::Crypto.new
+  def initialize(recipients)
+    @crypto     = GPGME::Crypto.new
+    @recipients = recipients
   end
 
-  def encrypt(text, recipient)
-    @crypto.encrypt text, :recipients => recipient 
+  def encrypt(text)
+    @crypto.encrypt text, :recipients => @recipients
+  end
+
+  def decrypt(text)
+    @crypto.decrypt(
+      text,
+      :recipients => @recipients,
+      :password   => "moomin"
+    ).to_s
   end
 
   def has_email_address?(email_address)

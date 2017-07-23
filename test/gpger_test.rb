@@ -7,7 +7,7 @@ require "./test/test_helper.rb"
 class GpgerTest < MiniTest::Test
   describe "gpg setting" do
     def setup
-      @crypt = Gpger.new
+      @crypt = Gpger.new("tobasojyo@gmail.com")
     end
     it "gpg correct setting validation" do
       assert @crypt.has_engine?("/usr/local/bin/gpg")
@@ -17,11 +17,12 @@ class GpgerTest < MiniTest::Test
 
   describe "en/decryption" do
     def setup
-      @crypt = Gpger.new
+      @crypt = Gpger.new("tobasojyo@gmail.com")
     end
-    it "" do
-      encrypted_data = @crypt.encrypt("Daisuki Myoin!", "tobasojyo@gmail.com")
-      assert encrypted_data.to_s.any?
+    it "encryption and decryption done successfully" do
+      encrypted_data = @crypt.encrypt("Daisuki Myoin!")
+      assert encrypted_data.to_s
+      assert_equal "Daisuki Myoin!", @crypt.decrypt(encrypted_data)
     end
   end
 end
